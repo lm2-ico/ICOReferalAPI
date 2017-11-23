@@ -1,0 +1,25 @@
+{
+  "name": "ico-referal-api",
+  "version": "1.0.0",
+  "description": "ICO referal API",
+  "main": "index.js",
+  "dependencies": {
+    "bignumber.js": "^4.1.0",
+    "node-fetch": "^1.7.3",
+    "web3": "^1.0.0-beta.26"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \\\\\\\"Error: no test specified\\\\\\\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lm2-ico/ICOReferalAPI.git"
+  },
+  "author": "pklecpin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lm2-ico/ICOReferalAPI/issues"
+  },
+  "homepage": "https://github.com/lm2-ico/ICOReferalAPI#readme"
+}
