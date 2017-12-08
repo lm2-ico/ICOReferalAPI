@@ -2,10 +2,27 @@ const fetch = require('node-fetch');
 const BigNumber = require('bignumber.js');
 const admin = require("firebase-admin");
 const serviceAccount = require("./auth/serviceAccountKey.json");
+var express = require('express');
+var app = express();
+
+let ready = false;
+
+app.set('port', (process.env.PORT || 5000));
+
+app.get('/update', (request, response) => {
+	if (ready) {
+		job();
+	}
+	response.sendStatus(ready ? 200 : 403);
+});
+
+app.listen(app.get('port'), () => {
+	console.log(`Node app is running on port ${app.get('port')}`);
+});
 
 let addressToIdMapping = [];
 
-const app = admin.initializeApp({
+admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://lordmancer-2-ico.firebaseio.com"
 });
@@ -82,13 +99,12 @@ const job = async () => {
 	}, {});
 
 	admin.database().ref("ico/referals").set(result);
-	app.delete();
 };
 
 admin.database().ref("users").on("value", (data) => {
 	const users = data.val();
 	addressToIdMapping = Object.getOwnPropertyNames(users).map( (key) => {return {wallet: users[key].wallet, refID: users[key].refID};} );
-	job();
+	ready = true;
 }, (err) => {
 	console.log(`The read failed: ${err.code}`);
 });
