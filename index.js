@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const BigNumber = require('bignumber.js');
 const admin = require("firebase-admin");
-const serviceAccount = require("./auth/serviceAccountKey.json");
+const serviceAccount = process.env.SAK || require("./auth/serviceAccountKey.json");
 var express = require('express');
 var app = express();
 
