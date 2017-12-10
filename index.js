@@ -34,6 +34,7 @@ const job = async () => {
 	const txList = json["result"];
 
 	const result = txList.reduce((acc, el) => {
+		if (el.isError == 1) return acc;
 		const address = el.from;
 		const userMapping = addressToIdMapping.find((e) => e.wallet.toUpperCase() === address.toUpperCase());
 		if (userMapping) {
