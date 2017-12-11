@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const BigNumber = require('bignumber.js');
 const admin = require("firebase-admin");
-const serviceAccount = JSON.parse(process.env.SAK) || require("./auth/serviceAccountKey.json");
+const serviceAccount = process.env.SAK ? JSON.parse(process.env.SAK) : require("./auth/serviceAccountKey.json");
 var express = require('express');
 var app = express();
 
@@ -104,7 +104,8 @@ const job = async () => {
 
 admin.database().ref("users").on("value", (data) => {
 	const users = data.val();
-	addressToIdMapping = Object.getOwnPropertyNames(users).map( (key) => {return {wallet: users[key].wallet, refID: users[key].refID};} );
+	addressToIdMapping = 
+		Object.getOwnPropertyNames(users).filter( (key) => users[key].wallet !== undefined ).map( (key) => {return {wallet: users[key].wallet, refID: users[key].refID};} );
 	ready = true;
 }, (err) => {
 	console.log(`The read failed: ${err.code}`);
